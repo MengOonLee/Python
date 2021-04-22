@@ -1,0 +1,49 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[nonumberlist]{glossaries}
+
+\makeglossaries
+
+\newglossaryentry{Attribute}{
+	name=Attribute,
+	description={a named piece of data stored within an object}
+}
+
+\newglossaryentry{Class}{
+	name=Class,
+	description={a blueprint for making an object}
+}
+
+\newglossaryentry{Instance}{
+	name=Instance,
+	description={a specific example of an object}
+}
+
+\newglossaryentry{Method}{
+	name=Method,
+	description={a function called upon an object allowing interaction with that object}
+}
+
+\newglossaryentry{Object}{
+	name=Object,
+	description={groups together data and functions to model something in code}
+}
+
+\newglossaryentry{Object-oriented programming}{
+	name=Object-oriented programming,
+	description={a different style of programming that brings function and data together}
+}
+
+\title{object-oriented programming}
+\author{Meng Oon Lee}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\clearpage
+
+\glsaddall
+\printglossaries
+
+\end{document}
