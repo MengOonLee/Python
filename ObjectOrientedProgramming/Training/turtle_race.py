@@ -1,5 +1,8 @@
 # Import Turtle class.
 from turtle import Turtle
+# randint function from the random module generates random integers.
+from random import randint
+
 # Create an instance of a Turtle object.
 laura = Turtle()
 # Use color and shape methods to customise attributes.
@@ -34,14 +37,12 @@ carrieanne.penup()
 carrieanne.goto(-160, 10)
 carrieanne.pendown()
 
-# randint function from the random module generates random integers.
-from random import randint
 # Each turtle will move forward by a random number of pixels.
 for movement in range(100):
-	laura.forward(randint(1, 5))
-	rik.forward(randint(1, 5))
-	lauren.forward(randint(1, 5))
-	carrieanne.forward(randint(1, 5))
+    laura.forward(randint(1, 5))
+    rik.forward(randint(1, 5))
+    lauren.forward(randint(1, 5))
+    carrieanne.forward(randint(1, 5))
 
 # See the output.
 input("Press Enter to close")
