@@ -1,13 +1,25 @@
 class Room():
+    
+    # class variable outside the constructor
+    number_of_rooms = 0
+    
     def __init__(self, room_name):
+        # instance variable inside the constructor
         self.name = room_name
         self.description = None
         self.linked_rooms = {}
+        self.character = None
+        self.item = None
+        
+        Room.number_of_rooms = Room.number_of_rooms + 1
         
     def set_description(self, room_description):
         self.description = room_description
         
     def get_description(self):
+        """
+        Returns a string containing the description of the room
+        """
         return self.description
     
     def set_name(self, room_name):
@@ -15,6 +27,18 @@ class Room():
         
     def get_name(self):
         return self.name
+    
+    def set_character(self, new_character):
+        self.character = new_character
+        
+    def get_character(self):
+        return self.character
+    
+    def get_item(self):
+        return self.item
+    
+    def set_item(self, item_name):
+        self.item = item_name
     
     def describe(self):
         print(self.description)
