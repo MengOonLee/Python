@@ -35,11 +35,11 @@ catrina.set_conversation("Why hello there.")
 ballroom.set_character(catrina)
 
 cheese = Item("cheese")
-cheese.set_description("A large and smelly block of cheese")
+cheese.description = "A large and smelly block of cheese"
 ballroom.set_item(cheese)
 
 book = Item("book")
-book.set_description("A really good book entitled 'Knitting for dummies'")
+book.description = "A really good book entitled 'Knitting for dummies'"
 dining_hall.set_item(book)
 
 current_room = kitchen
@@ -102,8 +102,8 @@ while dead == False:
             print("There is no one here to hug :(")
     elif command == "take":
         if item is not None:
-            print("You put the " + item.get_name() + " in your backpack")
-            backpack.append(item.get_name())
+            print("You put the " + item.name + " in your backpack")
+            backpack.append(item.name)
             current_room.set_item(None)
             
 RPGInfo.author = "Raspberry Pi Foundation"
