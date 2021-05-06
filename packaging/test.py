@@ -1,4 +1,4 @@
 # Import motivate_me function from motivate module
-from motivate import motivate_me
+from package import module_fn
 # Call motivate_me function
-motivate_me()
+module_fn()
