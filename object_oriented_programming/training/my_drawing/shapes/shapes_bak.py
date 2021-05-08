@@ -4,7 +4,7 @@
 # CC-BY-SA 4.0
 
 try:
-    from tkinter import Tk, Canvas, BOTH    
+    from tkinter import Tk, Canvas, BOTH   
 except ImportError:
     raise Exception("tkinter did not import successfully - check you are running Python 3 and that tkinter is available.")
 
@@ -37,7 +37,7 @@ class Paper():
 
         # Set some attributes
         Paper.tk.title("Drawing shapes")
-        Paper.tk.geometry(str(width)+"x"+str(height))
+        Paper.tk.geometry(str(width) + "x" + str(height))
         Paper.tk.paper_width = width
         Paper.tk.paper_height = height
 

@@ -20,4 +20,6 @@ setup(name = __project__,
     author = __author__,
     author_email = __author_email__,
     classifiers = __classifiers__,
-    keywords = __keywords__)
+    keywords = __keywords__,
+    requires = __requires__
+)
