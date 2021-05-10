@@ -1,20 +1,15 @@
-from character import Enemy, Friend
-from room import Room
-from rpginfo import RPGInfo
-from item import Item
+from spooky_castle import RPGInfo, Enemy, Friend, Room, Item
 
-spooky_castle = RPGInfo("The Spooky Castle")
-spooky_castle.welcome()
 RPGInfo.info()
 
 kitchen = Room("kitchen")
-kitchen.set_description("A dank and dirty room buzzing with flies.")
+kitchen.description("A dank and dirty room buzzing with flies.")
 
 dining_hall = Room("dining_hall")
-dining_hall.set_description("A large room with ornate golden decorations on each wall.")
+dining_hall.description("A large room with ornate golden decorations on each wall.")
 
 ballroom = Room("ballroom")
-ballroom.set_description("A vast room with a shiny wooden floor. Huge candlesticks guard the entrance.")
+ballroom.description("A vast room with a shiny wooden floor. Huge candlesticks guard the entrance.")
 
 print("There are " + str(Room.number_of_rooms) + " rooms to explore.")
 
@@ -28,15 +23,15 @@ dave = Enemy("Dave", "A smelly zombie")
 dave.set_conversation("Brrlgrh... rgrhl... brains...")
 # Set a weakness
 dave.set_weakness("cheese")
-dining_hall.set_character(dave)
+dining_hall.character(dave)
 
 catrina = Friend("Catrina", "A friendly skeleton")
 catrina.set_conversation("Why hello there.")
-ballroom.set_character(catrina)
+ballroom.character(catrina)
 
 cheese = Item("cheese")
 cheese.description = "A large and smelly block of cheese"
-ballroom.set_item(cheese)
+ballroom.item(cheese)
 
 book = Item("book")
 book.description = "A really good book entitled 'Knitting for dummies'"

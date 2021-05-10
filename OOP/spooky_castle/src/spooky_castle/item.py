@@ -8,10 +8,6 @@ class Item():
     def name(self):
         return self.__name
     
-    @name.setter
-    def name(self, item_name):
-        self.__name = item_name
-    
     @property
     def description(self):
         return self.__description
