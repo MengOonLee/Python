@@ -1,4 +1,4 @@
-from spooky_castle import RPGInfo, Enemy, Friend, Room, Item
+from spooky_castle import RPGInfo, Item, Room, Enemy, Friend
 
 RPGInfo.info()
 
@@ -35,7 +35,7 @@ ballroom.item(cheese)
 
 book = Item("book")
 book.description = "A really good book entitled 'Knitting for dummies'"
-dining_hall.set_item(book)
+dining_hall.item(book)
 
 current_room = kitchen
 backpack = []

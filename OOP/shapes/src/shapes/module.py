@@ -143,7 +143,7 @@ class Shape():
     @property
     def height(self):
         return self._height
-
+    
     @height.setter
     def height(self, height):
         """
@@ -157,7 +157,7 @@ class Shape():
     @property
     def x(self):
         return self._x
-
+    
     @x.setter
     def x(self, x):
         """
@@ -171,7 +171,7 @@ class Shape():
     @property
     def y(self):
         return self._y
-
+    
     @y.setter
     def y(self, y):
         """
@@ -191,7 +191,7 @@ class Shape():
             color (string): The color of the shape
         """
         return self._color
-
+        
     @color.setter
     def color(self, color):
         """

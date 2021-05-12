@@ -23,7 +23,8 @@ class Room():
         Returns a string containing the description of the room
         """
         return self.__description
-        
+    
+    @description.setter
     def description(self, room_description):
         self.__description = room_description
     
@@ -31,13 +32,15 @@ class Room():
     def link_room(self):
         return self.__linked_rooms
         
+    @link_room.setter
     def link_room(self, room_to_link, direction):
         self.__linked_rooms[direction] = room_to_link
         
     @property
     def character(self):
         return self.__character
-        
+    
+    @character.setter
     def character(self, new_character):
         self.__character = new_character
         
@@ -45,6 +48,7 @@ class Room():
     def item(self):
         return self.__item
     
+    @item.setter
     def item(self, item_name):
         self.__item = item_name
 
