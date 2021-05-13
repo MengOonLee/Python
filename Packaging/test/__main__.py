@@ -1,5 +1,6 @@
 # Import module function from module
-from package import print_fn, num_arr
+from package.module import print_fn 
+from package.subpackage.submodule import num_arr
 # Call function
 def main():
     print(print_fn())
