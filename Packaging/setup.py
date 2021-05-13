@@ -2,9 +2,9 @@
 from setuptools import setup, find_packages
 
 setup(
-    name = 'packaging',
+    name = 'package',
     version = '0.0.1',
-    package_dir = {'': 'packaging'},
-    packages = find_packages(where='packaging'),
+    package_dir = {'': 'src'},
+    packages = find_packages(where='src'),
     install_requires=['numpy']
 )
