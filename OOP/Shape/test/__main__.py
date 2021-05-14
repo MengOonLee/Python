@@ -15,11 +15,11 @@ if __name__ == '__main__':
     # Create an instance of an object.
     rect = Rectangle()
     # Use setters methods to set values.
-    rect.x = 100
-    rect.y = 100
-    rect.width = 200
-    rect.height = 100
-    rect.color = "blue"
+    rect.x(100)
+    rect.y(100)
+    rect.width(200)
+    rect.height(100)
+    rect.color('blue')
     # Use draw method to draw.
     rect.draw()
 

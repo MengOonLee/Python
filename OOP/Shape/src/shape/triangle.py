@@ -73,11 +73,6 @@ class Triangle(Shape):
     # Change the behaviour of set_width and set_height methods for a triangle
     # because triangles are not drawn in the same way
     
-    @property
-    def width(self):
-        return self.__width
-    
-    @width.setter
     def width(self, width):
         """
         Overrides the setter method for width
@@ -87,11 +82,6 @@ class Triangle(Shape):
         """
         raise Exception("Width cannot be defined for Triangle objects")
 
-    @property
-    def height(self):
-        return self.__height
-        
-    @height.setter
     def height(self, height):
         """
         Overrides the setter method for height

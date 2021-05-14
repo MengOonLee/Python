@@ -4,62 +4,57 @@ class Character():
     def __init__(self, char_name, char_description):
         self.name = char_name
         self.description = char_description
-        self.conversation = None
+        self.__conversation = None
         
     # Describe this character
     def describe(self):
-        print(self.name + " is here!")
+        print(f"{self.name} is here!")
         print(self.description)
         
     # Set what this character will say when talked to
-    def set_conversation(self, conversation):
-        self.conversation = conversation
+    def conversation(self, conversation):
+        self.__conversation = conversation
         
     # Talk to this character
     def talk(self):
-        if self.conversation is not None:
-            print("[" + self.name + " says]: " + self.conversation)
+        if self.__conversation is not None:
+            print(f"[{self.name} says]: {self.__conversation}")
         else:
-            print(self.name + " doesn't want to talk to you")
+            print(f"{self.name} doesn't want to talk to you")
             
     # Fight with this character
-    def fight(self, combat_item):
-        print(self.name + " doesn't want to fight with you")
-        return True
+    def no_fight(self):
+        print(f"{self.name} doesn't want to fight with you")
     
 class Enemy(Character):
     
-    enemies_to_defeat = 0
+    num_enemies = 0
     
     def __init__(self, char_name, char_description):
         super().__init__(char_name, char_description)
-        self.weakness = None
-        Enemy.enemies_to_defeat = Enemy.enemies_to_defeat + 1
+        self.__weakness = None
+        Enemy.num_enemies = Enemy.num_enemies + 1
         
-    def set_weakness(self, item_weakness):
-        self.weakness = item_weakness
-        
-    def get_weakness(self):
-        return self.weakness
-        
+    @classmethod
+    def number_enemies(cls):
+        return cls.num_enemies
+    
+    def weakness(self, item_weakness):
+        self.__weakness = item_weakness
+    
     def fight(self, combat_item):
-        if combat_item == self.weakness:
-            print("You fend " + self.name + " off with the " + combat_item)
-            Enemy.enemies_to_defeat = Enemy.enemies_to_defeat - 1
+        if combat_item == self.__weakness:
+            print(f"You fend {self.name} off with the {combat_item}")
+            Enemy.num_enemies = Enemy.num_enemies - 1
             return True
         else:
-            print(self.name + " crushes you, puny adventurer")
+            print(f"{self.name} crushes you, puny adventurer")
             return False
-        
-    def steal(self):
-        # How will you decide what this character has to steal?
-        print("You steal from " + self.name)
         
 class Friend(Character):
     
     def __init__(self, char_name, char_description):
         super().__init__(char_name, char_description)
-        self.feeling = None
         
     def hug(self):
-        print(self.name + " hugs you back!")
+        print(f"{self.name} hugs you back!")

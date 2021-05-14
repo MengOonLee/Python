@@ -68,12 +68,7 @@ class Shape():
 
         self._color = random.choice(["red", "yellow", "blue", "green", "gray", "white", "black", "cyan", "pink", "purple"])
 
-    # Getters and setters for Shape attributes
-    @property
-    def width(self):
-        return self._width
-    
-    @width.setter
+    # Setters for Shape attributes
     def width(self, width):
         """
         Sets the width of the shape.
@@ -83,11 +78,6 @@ class Shape():
         """
         self._width = width
 
-    @property
-    def height(self):
-        return self._height
-    
-    @height.setter
     def height(self, height):
         """
         Sets the height of the shape.
@@ -97,11 +87,6 @@ class Shape():
         """
         self._height = height
 
-    @property
-    def x(self):
-        return self._x
-    
-    @x.setter
     def x(self, x):
         """
         Sets the x position of the shape
@@ -111,11 +96,6 @@ class Shape():
         """
         self._x = x
 
-    @property
-    def y(self):
-        return self._y
-    
-    @y.setter
     def y(self, y):
         """
         Sets the y position of the shape
@@ -125,17 +105,6 @@ class Shape():
         """
         self._y = y
         
-    @property
-    def color(self):
-        """
-        Returns the colour of the shape
-        
-        Returns:
-            color (string): The color of the shape
-        """
-        return self._color
-        
-    @color.setter
     def color(self, color):
         """
         Sets the colour of the shape
