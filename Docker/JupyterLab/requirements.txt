@@ -5,3 +5,6 @@ seaborn
 plotly
 ipywidgets
 scikit-learn
+sqlalchemy
+pymysql
+pymssql
