@@ -1,0 +1,27 @@
+name: jupyter-gpu
+channels:
+  - defaults
+  - conda-forge
+  - plotly
+  - intel
+dependencies:
+  - numpy
+  - pandas
+  - matplotlib
+  - seaborn
+  - jupyterlab
+  - ipywidgets
+  - plotly
+  - tensorflow-gpu
+  - scikit-learn
+  - scikit-learn-intelex
+  - tqdm
+  - sqlalchemy
+  - pymysql
+  - pymssql
+  - pip
+  - pip:
+    - torch
+    - torchvision
+    - torchaudio
+    - apache-beam[gcp]
