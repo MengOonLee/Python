@@ -7,15 +7,16 @@ ENV NB_GID="100"
 
 USER root
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update
-RUN apt-get install -y \
+RUN apt-get update -yqq && apt-get upgrade -yqq
+RUN apt-get install -yqq --no-install-recommends \
         build-essential \
         wget \
         curl \
         ca-certificates \
         locales
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt-get install -y nodejs
+RUN apt-get install -yqq nodejs
+RUN apt-get autoremove -yqq && apt-get autoclean -yqq
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     locale-gen

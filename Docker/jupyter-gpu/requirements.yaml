@@ -19,6 +19,7 @@ dependencies:
   - sqlalchemy
   - pymysql
   - pymssql
+  - networkx
   - pip
   - pip:
     - torch

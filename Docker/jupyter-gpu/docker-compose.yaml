@@ -1,0 +1,13 @@
+services:
+  jupyter-gpu:
+    image: darklemon/jupyter-gpu:latest
+    ports:
+      - 8888:8888
+    volumes:
+      - $PWD:/home/meng/work
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            capabilities: [gpu]
