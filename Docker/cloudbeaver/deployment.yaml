@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudbeaver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudbeaver
+  template:
+    metadata:
+      labels:
+        app: cloudbeaver
+    spec:
+      containers:
+      - name: cloudbeaver
+        image: cloudbeaver:local
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8978
+        volumeMounts:
+        - name: hostvol
+          mountPath: /opt/cloudbeaver/workspace
+      volumes:
+        - name: hostvol
+          hostPath:
+            path: /var/cloudbeaver/workspace

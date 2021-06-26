@@ -1,6 +1,6 @@
 services:
   jupyter-gpu:
-    image: darklemon/jupyter-gpu:latest
+    image: jupyter-gpu:local
     ports:
       - 8888:8888
     volumes:
