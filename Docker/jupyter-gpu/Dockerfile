@@ -70,4 +70,4 @@ WORKDIR "${HOME}"
 
 EXPOSE 8888
 
-ENTRYPOINT ["jupyter-lab", "--no-browser", "--ip='0.0.0.0'" "--ServerApp.token=''", "--ServerApp.password=''"]
+ENTRYPOINT ["jupyter-lab", "--no-browser", "--ip='0.0.0.0'", "--ServerApp.token=''", "--ServerApp.password=''"]

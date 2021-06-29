@@ -1,7 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jupyter-gpu-deploy
+  name: jupyter-gpu
+  labels:
+    app: jupyter-gpu
 spec:
   replicas: 1
   selector:
