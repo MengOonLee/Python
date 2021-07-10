@@ -4,6 +4,3 @@ env/
 build/
 dist/
 *.egg-info/
-datasets/
-*.csv
-*.tar
