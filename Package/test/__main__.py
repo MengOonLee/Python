@@ -2,9 +2,9 @@
 from package.module import print_fn 
 from package.subpackage.submodule import num_arr
 # Call function
-def main():
+def run():
     print(print_fn())
     print(num_arr())
     
 if __name__ == "__main__":
-    main()
+    run()
