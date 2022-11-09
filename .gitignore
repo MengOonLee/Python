@@ -4,5 +4,3 @@ env/
 build/
 dist/
 *.egg-info/
-data/
-output/
