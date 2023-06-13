@@ -76,5 +76,9 @@ app.layout = dash.html.Div(children=[
 ], style={'text-align':'center', 'font-size':18,
     'background-color':'black', 'color':'white'})
 
+@dash.callback(
+
+)
+
 if __name__ == '__main__':
     app.run_server(host='0.0.0.0', debug=True)
