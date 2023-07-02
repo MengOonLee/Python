@@ -1,15 +1,15 @@
 import os
 import logging
 logging.getLogger().setLevel(logging.INFO)
-import apache_beam as beam
-import apache_beam.runners.interactive.interactive_beam as ib
-from apache_beam.runners.interactive.interactive_runner \
-    import InteractiveRunner
 import csv
 import codecs
 import datetime
 import dash
 import plotly.express as px
+import apache_beam as beam
+import apache_beam.runners.interactive.interactive_beam as ib
+from apache_beam.runners.interactive.interactive_runner \
+    import InteractiveRunner
 
 csv_files = ['./data/ecom_sales.csv']
 
@@ -32,7 +32,7 @@ def ReadCsvFiles(pbegin: beam.pvalue.PBegin, file_patterns):
         | beam.FlatMap(expand_pattern) \
         | beam.FlatMap(read_csv_lines)
 
-class ParseRaw(beam.DoFn):
+class ParseSales(beam.DoFn):
     def process(self, elem):
         elem['Quantity'] = int(elem['Quantity'].strip())
         elem['UnitPrice'] = round(
@@ -44,34 +44,82 @@ class ParseRaw(beam.DoFn):
         elem['YearMonth'] = elem['InvoiceDate']\
             .strftime('%Y-%m')
         yield elem
+        
+class TopSalesCountryFn(beam.CombineFn):
+    def create_accumulator(self):
+        country, sales = None, 0.0
+        return country, sales
+    
+    def add_input(self, accumulator, elem):
+        country, sales = accumulator
+        if elem['TotalSales'] > sales:
+            accumulator = (elem['Country'], elem['TotalSales'])
+        return accumulator
+    
+    def merge_accumulators(self, accumulators):
+        return accumulators[0]
+    
+    def extract_output(self, accumulator):
+        country, sales = accumulator
+        return {'Country':country, 'TotalSales':sales}
 
 with beam.Pipeline(
     runner=InteractiveRunner()
 ) as pipeline:
     
-    pc_raw = pipeline \
+    sales = pipeline \
         | ReadCsvFiles(csv_files) \
-        | beam.ParDo(ParseRaw())
+        | beam.ParDo(ParseSales())
     
-    pc_agg = pc_raw \
+    sales_line = sales \
         | beam.Map(lambda x: beam.Row(**x)) \
-        | beam.GroupBy('YearMonth', 'Country')\
+        | 'line' >> beam.GroupBy('YearMonth')\
             .aggregate_field('OrderValue', sum, 'TotalSales') \
-        | beam.Map(lambda x: x._asdict())
-
-    line_fig = px.line(data_frame=ib.collect(pc_agg),
-        x='YearMonth', y='TotalSales', color='Country',
+        | beam.Map(lambda x: x._asdict()) \
+        | beam.Map(lambda x: {
+            'YearMonth':str(x['YearMonth']),
+            'TotalSales':round(float(x['TotalSales']), 2)})
+    df_line = ib.collect(sales_line)
+    fig_line = px.line(data_frame=df_line,
+        x='YearMonth', y='TotalSales',
         title='Total Sales by Month')
+    
+    sales_bar = sales \
+        | beam.Map(lambda x: beam.Row(**x)) \
+        | 'bar' >> beam.GroupBy('Country')\
+            .aggregate_field('OrderValue', sum, 'TotalSales') \
+        | beam.Map(lambda x: x._asdict()) \
+        | beam.Map(lambda x: {
+            'Country':str(x['Country']),
+            'TotalSales':round(float(x['TotalSales']), 2)})
+    df_bar = ib.collect(sales_bar)
+    fig_bar = px.bar(data_frame=df_bar,
+        x='TotalSales', y='Country',
+        orientation='h',
+        title='Total Sales by Country')
 
+    top_sales_country = sales_bar \
+        | beam.CombineGlobally(TopSalesCountryFn())
+    max_country = ib.collect(top_sales_country)\
+        ['Country'][0]
+    
 # Create the Dash app
 app = dash.Dash(__name__)
 
-# Set up the layout with a single graph
-app.layout = dash.dcc.Graph(
-  id='my-line-graph',
-  # Insert the line graph
-  figure=line_fig)
+# Create the dash layout and overall div
+app.layout = dash.html.Div(children=[
+    # Add a H1
+    dash.html.H1('Sales Figures'), 
+    # Add a div containing the line figure
+    dash.html.Div(dash.dcc.Graph(id='fig_line',
+        figure=fig_line)), 
+    # Add a div containing the bar figure
+    dash.html.Div(dash.dcc.Graph(id='fig_bar',
+        figure=fig_bar)), 
+    # Add the H3
+    dash.html.H3(f'The largest country by sales was \
+        {max_country}')
+])
 
-# Set the app to run in development mode
 if __name__ == '__main__':
     app.run_server(host='0.0.0.0', debug=True)
