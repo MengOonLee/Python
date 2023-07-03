@@ -11,6 +11,7 @@ import apache_beam.runners.interactive.interactive_beam as ib
 from apache_beam.runners.interactive.interactive_runner \
     import InteractiveRunner
 
+logo_link = 'https://avatars.githubusercontent.com/u/44514389?v=4'
 csv_files = ['./data/ecom_sales.csv']
 
 @beam.ptransform_fn
@@ -62,64 +63,54 @@ class TopSalesCountryFn(beam.CombineFn):
     def extract_output(self, accumulator):
         country, sales = accumulator
         return {'Country':country, 'TotalSales':sales}
-
+    
 with beam.Pipeline(
     runner=InteractiveRunner()
 ) as pipeline:
     
+    country_list = ['United Kingdom', 'Germany', 'France',
+        'Australia', 'Hong Kong']
+    
     sales = pipeline \
         | ReadCsvFiles(csv_files) \
-        | beam.ParDo(ParseSales())
-    
-    sales_line = sales \
-        | beam.Map(lambda x: beam.Row(**x)) \
-        | 'line' >> beam.GroupBy('YearMonth')\
-            .aggregate_field('OrderValue', sum, 'TotalSales') \
-        | beam.Map(lambda x: x._asdict()) \
-        | beam.Map(lambda x: {
-            'YearMonth':str(x['YearMonth']),
-            'TotalSales':round(float(x['TotalSales']), 2)})
-    df_line = ib.collect(sales_line)
-    fig_line = px.line(data_frame=df_line,
-        x='YearMonth', y='TotalSales',
-        title='Total Sales by Month')
+        | beam.Filter(lambda x: x['Country'] in country_list) \
+        | beam.ParDo(ParseSales()) \
     
     sales_bar = sales \
         | beam.Map(lambda x: beam.Row(**x)) \
-        | 'bar' >> beam.GroupBy('Country')\
+        | beam.GroupBy('Country')\
             .aggregate_field('OrderValue', sum, 'TotalSales') \
         | beam.Map(lambda x: x._asdict()) \
         | beam.Map(lambda x: {
             'Country':str(x['Country']),
-            'TotalSales':round(float(x['TotalSales']), 2)})
+            'TotalSales': round(float(x['TotalSales']), 2)})
     df_bar = ib.collect(sales_bar)
     fig_bar = px.bar(data_frame=df_bar,
-        x='TotalSales', y='Country',
-        orientation='h',
-        title='Total Sales by Country')
-
+        x='TotalSales', y='Country', color='Country',
+        color_discrete_map={'United Kingdom':'lightblue',
+            'Germany':'orange', 'France':'darkblue', 
+            'Australia':'green', 'Hong Kong':'red'})
+    
     top_sales_country = sales_bar \
         | beam.CombineGlobally(TopSalesCountryFn())
-    max_country = ib.collect(top_sales_country)\
-        ['Country'][0]
-    
-# Create the Dash app
+    top_country = ib.collect(top_sales_country)['Country'][0]
+
 app = dash.Dash(__name__)
 
-# Create the dash layout and overall div
 app.layout = dash.html.Div(children=[
-    # Add a H1
-    dash.html.H1('Sales Figures'), 
-    # Add a div containing the line figure
-    dash.html.Div(dash.dcc.Graph(id='fig_line',
-        figure=fig_line)), 
-    # Add a div containing the bar figure
-    dash.html.Div(dash.dcc.Graph(id='fig_bar',
-        figure=fig_bar)), 
-    # Add the H3
-    dash.html.H3(f'The largest country by sales was \
-        {max_country}')
-])
+    # Add the company logo
+    dash.html.Img(src=logo_link),
+    dash.html.H1('Sales by Country'),
+    dash.html.Div(dash.dcc.Graph(figure=fig_bar), 
+        style={'width':'750px', 'margin':'auto'}),
+    # Add an overall text-containing component
+    dash.html.Span(children=[
+        # Add the top country text
+        'This year, the most sales came from: ', 
+        dash.html.B(top_country),
+        # Italicize copyright notice
+        dash.html.I(' Copyright E-Com INC')])
+], style={'text-align':'center', 'font-size':22})
 
 if __name__ == '__main__':
     app.run_server(host='0.0.0.0', debug=True)
